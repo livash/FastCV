@@ -11,7 +11,31 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130711175604) do
+ActiveRecord::Schema.define(:version => 20130711221416) do
+
+  create_table "photos", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "slide_photos", :force => true do |t|
+    t.integer  "slide_id",   :null => false
+    t.integer  "photo_id",   :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "slide_photos", ["photo_id"], :name => "index_slide_photos_on_photo_id"
+  add_index "slide_photos", ["slide_id"], :name => "index_slide_photos_on_slide_id"
+
+  create_table "slides", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "username"
@@ -31,5 +55,25 @@ ActiveRecord::Schema.define(:version => 20130711175604) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "version_slides", :force => true do |t|
+    t.integer  "version_id", :null => false
+    t.integer  "slide_id",   :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "version_slides", ["slide_id"], :name => "index_version_slides_on_slide_id"
+  add_index "version_slides", ["version_id"], :name => "index_version_slides_on_version_id"
+
+  create_table "versions", :force => true do |t|
+    t.integer  "user_id",     :null => false
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "versions", ["user_id"], :name => "index_versions_on_user_id"
 
 end
